@@ -1,0 +1,4 @@
+# Put one authorized video URL per line.
+# Example:
+# https://www.youtube.com/watch?v=VIDEO_ID
+# https://www.tiktok.com/@creator/video/VIDEO_ID

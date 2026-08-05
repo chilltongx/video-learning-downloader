@@ -1,0 +1,19 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Local build products and downloaded media
+Video Downloader.app/
+build/
+dist/
+downloads/
+*.part
+*.ytdl
+
+# Local settings, logs, and environment files
+.env
+.env.*
+*.log
