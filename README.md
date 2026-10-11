@@ -8,6 +8,7 @@ other sites supported by `yt-dlp`.
 
 - Native macOS UI plus a Python/Tkinter fallback.
 - Single-video and batch downloads with configurable quality.
+- Podcast/video subtitle extraction with chaptered Markdown and plain-text transcripts.
 - Automatic HTTP, HTTPS, and SOCKS proxy discovery on macOS.
 - Machine-readable output for editing workflows.
 - Redacted run manifests, SHA-256 hashes, and `ffprobe` validation.
@@ -28,6 +29,31 @@ brew install yt-dlp ffmpeg node
 
 ## Use
 
+The native macOS app has three modes:
+
+- **音频**: MP3 with VBR / 192 kbps / 128 kbps quality, optional cover and transcript.
+- **文字稿**: platform subtitles to Markdown + TXT, language preference and optional timestamps.
+- **视频**: MP4 at the selected maximum resolution, optional cover, transcript and original subtitles.
+
+Each mode remembers its output directory and options. Progress shows the current
+download/conversion stage; results offer file opening, Finder reveal, and transcript
+preview/copy. Optional-product failures are reported separately from successful media.
+Stopping a task also stops its downloader/converter subprocesses.
+
+Transcripts and their source files default to
+`/Volumes/xssd/Movies/文字稿/<受访者姓名>/<每期内容>/`. Enter a confirmed guest name;
+otherwise the app uses `待确认受访者`. Attached transcripts use the directory selected
+in text mode. This version requires available Chinese/English platform subtitles;
+it does not perform speech recognition when subtitles are missing.
+
+Build the signed local macOS bundle (Python and media tools remain local dependencies):
+
+```bash
+./scripts/build-macos.sh
+```
+
+The result is `build/Video Downloader.app`; the bundle includes its Python task scripts.
+
 Run the cross-platform Python GUI:
 
 ```bash
@@ -38,6 +64,21 @@ Download one video:
 
 ```bash
 ./scripts/download-one.sh "https://www.youtube.com/watch?v=VIDEO_ID"
+```
+
+Extract and organize one podcast episode without downloading media:
+
+```bash
+python3 ./scripts/extract-podcast-transcript.py "VIDEO_URL" \
+  --output-dir "$HOME/Documents/Podcast Transcripts/episode"
+```
+
+Process a playlist only when explicitly intended:
+
+```bash
+python3 ./scripts/extract-podcast-transcript.py "PLAYLIST_URL" \
+  --playlist --max-items 100 \
+  --output-dir "$HOME/Documents/Podcast Transcripts/show"
 ```
 
 Use the verified machine-readable entry point:
